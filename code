@@ -1,0 +1,2658 @@
+package dbms;
+
+import java.util.*;
+import java.sql.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+
+class doctor{
+	
+	static void viewDoctor(Connection con) {
+		
+		String query = "select * from doctor";
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				String id = rs.getString("id");
+				String name=rs.getString("name");
+				String specialization = rs.getString("specialization");
+				String experience=((Integer)rs.getInt("experience")).toString();
+				String salary=((Integer)rs.getInt("salary")).toString();
+				System.out.println();
+				System.out.println(id+" "+name+" "+specialization+" "+experience+" "+salary);
+			}
+		} catch (SQLException e) {
+			System.out.println("Doctor: view error");
+		}
+		
+	}
+	
+	static void updateDoctor(Connection con) {
+		
+		System.out.println("Enter your choice:");
+		System.out.println("1. Update name");
+		System.out.println("2. Update specialization");
+		System.out.println("3. Update experience");
+		System.out.println("4. Update salary");
+		
+		Scanner sc = new Scanner(System.in);
+		int choice = sc.nextInt();
+		
+		System.out.println("Enter the Doctor id:");
+		String id = sc.next();
+		
+		String query;
+		
+		switch(choice) {
+		case 1: 
+			System.out.println("Enter the name to update");
+			String name = sc.next();
+			query = "Update doctor set name = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,name);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Doctor: Update Name Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Doctor: Update name error");
+			}
+			
+			break;
+			
+		case 2: 
+			System.out.println("Enter the specialization to update");
+			String specialization = sc.next();
+			query = "Update doctor set specialization = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,specialization);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Doctor: Update Specialization Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Doctor: Update specialization error");
+			}
+			break;
+			
+		case 3: 
+			System.out.println("Enter the experience to update");
+			String experience = sc.next();
+			query = "Update doctor set experience = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,experience);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Doctor: Update experience Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Doctor: Update experience error");
+			}
+			break;
+			
+		case 4:
+			System.out.println("Enter the salary to update");
+			String salary = sc.next();
+			query = "Update doctor set salary = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,salary);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Doctor: Update salary Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Doctor: Update salary error");
+			}
+			break;
+			
+		default: System.out.println("Invalied choice");
+		}
+		
+		sc.close();
+
+		
+	}
+	
+	static void removeDoctor(Connection con,String id) {
+		
+		String query = "Delete from doctor where id = ?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+		    ps.setString(1,id);
+		    ps.executeUpdate();
+		    System.out.println("Doctor delete Success");
+		    
+		} catch (SQLException e) {
+			System.out.println("Doctor Delete error");
+		}
+		
+	}
+	
+	static void addDoctor(Connection con, String id, String name, String specialization, String experience, String salary) {
+		
+		String query = "insert into doctor(id,name,specialization,experience,salary)" +"values(?,?,?,?,?)";
+		
+		try {
+			PreparedStatement ps=con.prepareStatement(query);
+			ps.setString(1,id);
+		    ps.setString(2,name);
+		    ps.setString(3,specialization);
+		    ps.setString(4,experience);
+		    ps.setString(5,salary);
+		    ps.executeUpdate();
+		    System.out.println("Doctor insert Success");
+		  } catch (SQLException e) {
+			System.out.println("Doctor Insert error");
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		}
+	}
+}
+
+class nurse{
+	
+static void viewNurse(Connection con) {
+		
+		String query = "select * from nurse";
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				String id = rs.getString("id");
+				String name=rs.getString("name");
+				String experience=((Integer)rs.getInt("experience")).toString();
+				String salary=((Integer)rs.getInt("salary")).toString();
+				System.out.println();
+				System.out.println(id+" "+name+" "+experience+" "+salary);
+			}
+		} catch (SQLException e) {
+			System.out.println("Nurse: view error");
+		}
+		
+	}
+	
+	static void updateNurse(Connection con) {
+		
+		System.out.println("Enter your choice:");
+		System.out.println("1. Update name");
+		System.out.println("2. Update experience");
+		System.out.println("3. Update salary");
+		
+		Scanner sc = new Scanner(System.in);
+		int choice = sc.nextInt();
+		
+		System.out.println("Enter the Nurse id:");
+		String id = sc.next();
+		
+		String query;
+		
+		switch(choice) {
+		case 1: 
+			System.out.println("Enter the name to update");
+			String name = sc.next();
+			query = "Update nurse set name = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,name);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Nurse: Update Name Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Nurse: Update name error");
+			}
+			
+			break;
+			
+		case 2: 
+			System.out.println("Enter the experience to update");
+			String experience = sc.next();
+			query = "Update nurse set experience = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,experience);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Nurse: Update experience Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Nurse: Update experience error");
+			}
+			break;
+			
+		case 3:
+			System.out.println("Enter the salary to update");
+			String salary = sc.next();
+			query = "Update nurse set salary = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,salary);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Nurse: Update salary Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Nurse: Update salary error");
+			}
+			break;
+			
+		default: System.out.println("Invalied choice");
+		}
+		
+		sc.close();
+
+		
+	}
+	
+	static void removeNurse(Connection con,String id) {
+		
+		String query = "Delete from Nurse where id = ?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+		    ps.setString(1,id);
+		    ps.executeUpdate();
+		    System.out.println("Nurse: Delete Success");
+		    
+		} catch (SQLException e) {
+			System.out.println("Nurse: Delete error");
+		}
+		
+	}
+	
+	static void addNurse(Connection con, String id, String name, int experience, int salary) {
+		
+		String query = "insert into Nurse(id,name,experience,salary)" +"values(?,?,?,?)";
+		
+		try {
+			PreparedStatement ps=con.prepareStatement(query);
+			ps.setString(1,id);
+		    ps.setString(2,name);
+		    ps.setInt(3,experience);
+		    ps.setInt(4,salary);
+		    ps.executeUpdate();
+		    System.out.println("Nurse: insert Success");
+		  } catch (SQLException e) {
+			System.out.println("Nurse: Insert error");
+		}
+	}
+	
+}
+
+class medicin{
+	
+static void viewMedicin(Connection con) {
+		
+		String query = "select * from medicin";
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				String name=rs.getString("name");
+				String price=((Integer)rs.getInt("price")).toString();
+				String quantity=((Integer)rs.getInt("quantity")).toString();
+				System.out.println();
+				System.out.println(name+" "+price+" "+quantity);
+			}
+		} catch (SQLException e) {
+			System.out.println("Medicin: view error");
+		}
+		
+	}
+	
+	static void updateMedicin(Connection con) {
+		
+		System.out.println("Enter your choice:");
+		System.out.println("1. Update price");
+		System.out.println("2. Update quantity");
+		
+		Scanner sc = new Scanner(System.in);
+		int choice = sc.nextInt();
+		
+		System.out.println("Enter the Medicin name:");
+		String name = sc.next();
+		
+		String query;
+		
+		switch(choice) {
+		case 1: 
+			System.out.println("Enter the price to update");
+			int price = sc.nextInt();
+			query = "Update Medicin set price = ? where name = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setInt(1,price);
+				ps.setString(2,name);
+			    ps.executeUpdate();
+			    System.out.println("Medicin: Update Price Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Medicin: Update Price error");
+			}
+			
+			break;
+			
+		case 2: 
+			System.out.println("Enter the quantity to update");
+			int quantity = sc.nextInt();
+			query = "Update Medicin set quantity = ? where name = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setInt(1,quantity);
+				ps.setString(2,name);
+			    ps.executeUpdate();
+			    System.out.println("Medicin: Update quantity Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Medicin: Update quantity error");
+			}
+			break;
+			
+		default: System.out.println("Invalied choice");
+		}
+		
+		sc.close();
+
+		
+	}
+	
+	static void removeMedicin(Connection con,String name) {
+		
+		String query = "Delete from Medicin where name = ?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+		    ps.setString(1,name);
+		    ps.executeUpdate();
+		    System.out.println("Medicin: Delete Success");
+		    
+		} catch (SQLException e) {
+			System.out.println("Medicin: Delete error");
+		}
+		
+	}
+	
+	static void addMedicin(Connection con,String name, int price, int quantity) {
+		
+		String query = "insert into Medicin(name,price,quantity)" +"values(?,?,?)";
+		
+		try {
+			PreparedStatement ps=con.prepareStatement(query);
+			ps.setString(1,name);
+		    ps.setInt(2,price);
+		    ps.setInt(3,quantity);
+		    ps.executeUpdate();
+		    System.out.println("Medicin: insert Success");
+		  } catch (SQLException e) {
+			System.out.println("Medicin: Insert error");
+		}
+	}
+	
+}
+
+class patient{
+	
+static void viewPatient(Connection con) {
+		
+		String query = "select * from Patient";
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				String id = rs.getString("id");
+				String name=rs.getString("name");
+				String illness = rs.getString("illness");
+				String medicine = rs.getString("medicine");
+				String nurse_id = rs.getString("nurse_id");
+				System.out.println();
+				System.out.println(id+" "+name+" "+illness+" "+medicine+" "+nurse_id);
+			}
+		} catch (SQLException e) {
+			System.out.println("Patient: view error");
+		}
+		
+	}
+	
+	static void updatePatient(Connection con) {
+		
+		System.out.println("Enter your choice:");
+		System.out.println("1. Update name");
+		System.out.println("2. Update illness");
+		System.out.println("3. Update medicine");
+		System.out.println("4. Update nurse_id");
+		
+		Scanner sc = new Scanner(System.in);
+		int choice = sc.nextInt();
+		
+		System.out.println("Enter the Patient id:");
+		String id = sc.next();
+		
+		String query;
+		
+		switch(choice) {
+		case 1: 
+			System.out.println("Enter the name to update");
+			String name = sc.next();
+			query = "Update Patient set name = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,name);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Patient: Update Name Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Patient: Update name error");
+			}
+			
+			break;
+			
+		case 2: 
+			System.out.println("Enter the illness to update");
+			String illness = sc.next();
+			query = "Update Patient set illness = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,illness);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Patient: Update illness Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Patient: Update illness error");
+			}
+			break;
+			
+		case 3: 
+			System.out.println("Enter the medicine to update");
+			String medicine = sc.next();
+			query = "Update Patient set medicine = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,medicine);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Patient: Update medicine Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Patient: Update medicine error");
+			}
+			break;
+			
+		case 4:
+			System.out.println("Enter the nurse_id to update");
+			String nurse_id = sc.next();
+			query = "Update Patient set nurse_id = ? where id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,nurse_id);
+				ps.setString(2,id);
+			    ps.executeUpdate();
+			    System.out.println("Patient: Update nurse_id Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Patient: Update nurse_id error");
+			}
+			break;
+			
+		default: System.out.println("Invalied choice");
+		}
+		
+		sc.close();
+
+		
+	}
+	
+	static void removePatient(Connection con,String id) {
+		
+		String query = "Delete from Patient where id = ?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+		    ps.setString(1,id);
+		    ps.executeUpdate();
+		    System.out.println("Patient delete Success");
+		    
+		} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.out.println("Patient Delete error");
+		}
+		
+	}
+	
+	static void addPatient(Connection con, String id, String name, String illness, String medicine, String nurse_id) {
+		
+		String query = "insert into Patient(id,name,illness,medicine,nurse_id)" +"values(?,?,?,?,?)";
+		
+		try {
+			PreparedStatement ps=con.prepareStatement(query);
+			ps.setString(1,id);
+		    ps.setString(2,name);
+		    ps.setString(3,illness);
+		    ps.setString(4,medicine);
+		    ps.setString(5,nurse_id);
+		    ps.executeUpdate();
+		    System.out.println("Patient insert Success");
+		  } catch (SQLException e) {
+			System.out.println("Patient Insert error");
+		}
+	}
+	
+}
+
+class account{
+	
+static void viewAccount(Connection con) {
+		
+		String query = "select * from Account";
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				String patient_id=rs.getString("patient_id");
+				String bill=((Integer)rs.getInt("bill")).toString();
+				String status_of_bill=rs.getString("status_of_bill");
+				System.out.println();
+				System.out.println(patient_id+" "+bill+" "+status_of_bill);
+			}
+		} catch (SQLException e) {
+			System.out.println("Account: view error");
+		}
+		
+	}
+	
+	static void updateAccount(Connection con) {
+		
+		System.out.println("Enter your choice:");
+		System.out.println("1. Update Bill");
+		System.out.println("2. Update status_of_bill");
+		
+		Scanner sc = new Scanner(System.in);
+		int choice = sc.nextInt();
+		
+		System.out.println("Enter the Patient ID:");
+		String patient_id = sc.next();
+		
+		String query;
+		
+		switch(choice) {
+		case 1: 
+			System.out.println("Enter the Bill to update");
+			int Bill = sc.nextInt();
+			query = "Update Account set Bill = ? where patient_id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setInt(1,Bill);
+				ps.setString(2,patient_id);
+			    ps.executeUpdate();
+			    System.out.println("Account: Update Bill Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Account: Update Bill error");
+			}
+			
+			break;
+			
+		case 2: 
+			System.out.println("Enter the status_of_bill to update");
+			String status_of_bill = sc.next();
+			query = "Update Account set status_of_bill = ? where patient_id = ?";
+			try {
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1,status_of_bill);
+				ps.setString(2,patient_id);
+			    ps.executeUpdate();
+			    System.out.println("Account: Update status_of_bill Success");
+				
+			} catch (SQLException e) {
+				System.out.println("Account: Update status_of_bill error");
+			}
+			break;
+			
+		default: System.out.println("Invalied choice");
+		}
+		
+		sc.close();
+
+		
+	}
+	
+	static void removeAccount(Connection con,String patient_id) {
+		
+		String query = "Delete from Account where patient_id = ?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(query);
+		    ps.setString(1,patient_id);
+		    ps.executeUpdate();
+		    System.out.println("Account: Delete Success");
+		    
+		} catch (SQLException e) {
+			System.out.println("Account: Delete error");
+		}
+		
+	}
+	
+	static void addAccount(Connection con,String patient_id, int bill, String status_of_bill) {
+		
+		String query = "insert into account(patient_id,bill,status_of_bill)" +"values(?,?,?)";
+		
+		try {
+			PreparedStatement ps=con.prepareStatement(query);
+			ps.setString(1,patient_id);
+		    ps.setInt(2,bill);
+		    ps.setString(3,status_of_bill);
+		    ps.executeUpdate();
+		    System.out.println("Account: insert Success");
+		  } catch (SQLException e) {
+			System.out.println("Account: Insert error");
+		}
+	}
+	
+}
+
+
+
+public class main1 {
+
+	public static void main(String[] args) {
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			}
+			catch(ClassNotFoundException e) {
+				System.out.println("Class Not Found");
+			}
+		
+		
+		/*try {
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+		    }
+		catch(SQLException e) {
+			System.out.println("Sql Exception in main()");
+			System.exit(1);
+		    }*/
+		
+		
+		JFrame frame1=new JFrame("SHMS LOG-IN");
+		frame1.setVisible(true);
+		//frame1.dispose();
+		frame1.setBounds(200,100,700,500);
+		Container c1 = frame1.getContentPane();
+		c1.setLayout(null);
+		
+		JLabel label1 = new JLabel("USER :");
+		label1.setBounds(50,60,60,30);
+		
+		String[] arr = {"Admin","Doctor","Nurse","Accountant","Pharmacist"};
+		JComboBox combo1 = new JComboBox(arr);
+		combo1.setBounds(90,60,70,25);
+		
+		JButton button1 = new JButton("Log IN");
+		button1.setBounds(170,60,70,25);
+		
+		button1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String User = (String) combo1.getSelectedItem();
+				//System.out.println(User);
+				frame1.dispose();
+				
+				switch(User) {
+				
+				case "Admin" :
+					
+					JFrame adminFrame =new JFrame(User);
+					adminFrame.setVisible(true);
+					adminFrame.setBounds(200,100,700,500);
+					Container c2 = adminFrame.getContentPane();
+					c2.setLayout(null);
+					
+					JLabel adminLabel = new JLabel("Operations");
+					adminLabel.setBounds(50,60,90,30);
+					
+					String[] adminOpr = {"Add Doctor","Remove Doctor","Modify Doctor","view Doctor","Add Nurse","Remove Nurse","Modify Nurse","View Nurse"};
+					JComboBox adminCombo = new JComboBox(adminOpr);
+					adminCombo.setBounds(130,60,90,25);
+					
+					JButton adminButton = new JButton("Submit");
+					adminButton.setBounds(230,60,80,25);
+					
+					adminButton.addActionListener(new ActionListener() {
+						
+						public void actionPerformed(ActionEvent e) {
+							
+							String Op = (String) adminCombo.getSelectedItem();
+							
+							switch(Op) {
+							
+							case "Add Doctor":
+								
+								adminFrame.dispose();
+								
+								JFrame adminDocFrame = new JFrame("Add Doctor");
+								adminDocFrame.setVisible(true);
+								adminDocFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								adminDocFrame.setBounds(200,100,700,500);
+								Container c3 = adminDocFrame.getContentPane();
+								c3.setLayout(null);
+								
+								JLabel adminDocIdLbl = new JLabel("ID");
+								adminDocIdLbl.setBounds(50,60,60,30);
+								JTextField adminDocIdTxt = new JTextField();
+								adminDocIdTxt.setBounds(140,60,150,30);
+								
+								JLabel adminDocNameLbl = new JLabel("NAME");
+								adminDocNameLbl.setBounds(50,100,60,30);
+								JTextField adminDocNameTxt = new JTextField();
+								adminDocNameTxt.setBounds(140,100,150,30);
+								
+								JLabel adminDocSpecializationLbl = new JLabel("Specialization");
+								adminDocSpecializationLbl.setBounds(50,140,90,30);
+								JTextField adminDocSpecializationTxt = new JTextField();
+								adminDocSpecializationTxt.setBounds(140,140,150,30);
+								
+								JLabel adminDocExperienceLbl = new JLabel("Experience");
+								adminDocExperienceLbl.setBounds(50,180,90,30);
+								JTextField adminDocExperienceTxt = new JTextField();
+								adminDocExperienceTxt.setBounds(140,180,150,30);
+								
+								JLabel adminDocSalaryLbl = new JLabel("Salary");
+								adminDocSalaryLbl.setBounds(50,220,60,30);
+								JTextField adminDocSalaryTxt = new JTextField();
+								adminDocSalaryTxt.setBounds(140,220,150,30);
+								
+								JButton adminDocBtn = new JButton("Insert");
+								adminDocBtn.setBounds(165,260,90,30);
+								
+								
+								adminDocBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent e) {
+										
+										String DocId = adminDocIdTxt.getText();
+										String DocName = adminDocNameTxt.getText();
+										String DocSpecialization = adminDocSpecializationTxt.getText();
+										String DocExperience = adminDocExperienceTxt.getText();
+										String DocSalary = adminDocSalaryTxt.getText();
+										
+										
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											
+											doctor.addDoctor(con, DocId, DocName, DocSpecialization,  DocExperience, DocSalary);
+										    }
+										catch(SQLException e1) {
+											System.out.println("Sql Exception in main()");
+											System.exit(1);
+										    }
+										
+										
+										
+									}
+									
+								});
+								
+								c3.add(adminDocIdTxt);
+								c3.add(adminDocNameTxt);
+								c3.add(adminDocSpecializationTxt);
+								c3.add(adminDocExperienceTxt);
+								c3.add(adminDocSalaryTxt);
+								c3.add(adminDocIdLbl);
+								c3.add(adminDocNameLbl);
+								c3.add(adminDocSpecializationLbl);
+								c3.add(adminDocExperienceLbl);
+								c3.add(adminDocSalaryLbl);
+								c3.add(adminDocBtn);
+								
+								c3.revalidate();
+
+								break;
+								
+							case "Remove Doctor":
+								
+								JFrame adminRmFr = new JFrame("Remove Doctor");
+								adminRmFr.setVisible(true);
+								adminRmFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								adminRmFr.setBounds(200,100,700,500);
+								Container c4 = adminRmFr.getContentPane();
+								c4.setLayout(null);
+								
+								JLabel adminRmFrIdLbl = new JLabel("ID");
+								adminRmFrIdLbl.setBounds(50,60,60,30);
+								JTextField adminRmFrIdTxt = new JTextField();
+								adminRmFrIdTxt.setBounds(140,60,150,30);
+								
+								JButton adminRmFrIdBtn = new JButton("Submit");
+								adminRmFrIdBtn.setBounds(320,60,90,30);
+								
+								adminRmFrIdBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent e) {
+										String RmDocId = adminRmFrIdTxt.getText();
+										
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											
+											doctor.removeDoctor(con,RmDocId);
+										    }
+										catch(SQLException e1) {
+											System.out.println("Sql Exception in main()");
+											System.exit(1);
+										    }
+										
+										
+									}
+									
+								});
+								
+								c4.add(adminRmFrIdLbl);
+								c4.add(adminRmFrIdTxt);
+								c4.add(adminRmFrIdBtn);
+								
+								break;
+								
+							case "Modify Doctor":
+								
+								JFrame adminModFr = new JFrame("Modify Doctor");
+								adminModFr.setVisible(true);
+								adminModFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								adminModFr.setBounds(200,100,700,500);
+								Container c5 = adminModFr.getContentPane();
+								c5.setLayout(null);
+								
+								JLabel adminModLabel = new JLabel("Operations");
+								adminModLabel.setBounds(50,60,90,30);
+								
+								String[] adminModOpr = {"Update Name","Update specialization","Update experience","Update salary"};
+								JComboBox adminModCombo = new JComboBox(adminModOpr);
+								adminModCombo.setBounds(130,60,90,25);
+								
+								JButton adminModButton = new JButton("Submit");
+								adminModButton.setBounds(230,60,80,25);
+								
+								adminModButton.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String RmOperation = (String)adminModCombo.getSelectedItem();
+										
+										switch(RmOperation) {
+										
+										case "Update Name" :
+											JFrame docUpFr = new JFrame("Update Name");
+											docUpFr.setVisible(true);
+											docUpFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											docUpFr.setBounds(200,100,700,500);
+											Container c6 = docUpFr.getContentPane();
+											c6.setLayout(null);
+											
+											JLabel upDocIdLbl = new JLabel("ID");
+											upDocIdLbl.setBounds(50,60,60,30);
+											JTextField upDocIdTxt = new JTextField();
+											upDocIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upDocNameLbl = new JLabel("Name");
+											upDocNameLbl.setBounds(50,100,60,30);
+											JTextField upDocNameTxt = new JTextField();
+											upDocNameTxt.setBounds(140,100,150,30);
+											
+											JButton upBtn = new JButton("Submit");
+											upBtn.setBounds(165,140,90,30);
+											
+											upBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateId = upDocIdTxt.getText();
+													String updateName = upDocNameTxt.getText();
+													String query = "Update doctor set name = ? where id = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setString(1,updateName);
+														ps.setString(2,updateId);
+													    ps.executeUpdate();
+													    System.out.println("Doctor: Update Name Success");
+														
+													} catch (SQLException e1) {
+														System.out.println("Doctor: Update name error");
+													}
+													
+												}
+												
+											});
+											
+											c6.add(upDocIdLbl);
+											c6.add(upDocIdTxt);
+											c6.add(upDocNameLbl);
+											c6.add(upDocNameTxt);
+											c6.add(upBtn);
+										
+											
+											break;
+											
+										case "Update specialization" :
+											
+											JFrame docUpSpFr = new JFrame("Update specialization");
+											docUpSpFr.setVisible(true);
+											docUpSpFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											docUpSpFr.setBounds(200,100,700,500);
+											Container c7 = docUpSpFr.getContentPane();
+											c7.setLayout(null);
+											
+											JLabel upSpDocIdLbl = new JLabel("ID");
+											upSpDocIdLbl.setBounds(50,60,60,30);
+											JTextField upSpDocIdTxt = new JTextField();
+											upSpDocIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upDocSpecializationLbl = new JLabel("specialization");
+											upDocSpecializationLbl.setBounds(50,100,90,30);
+											JTextField upDocSpecializationTxt = new JTextField();
+											upDocSpecializationTxt.setBounds(140,100,150,30);
+											
+											JButton upSpecializationBtn = new JButton("Submit");
+											upSpecializationBtn.setBounds(165,140,90,30);
+											
+											upSpecializationBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateId = upSpDocIdTxt.getText();
+													String updatespecialization = upDocSpecializationTxt.getText();
+													
+													String query = "Update doctor set specialization = ? where id = ?";
+														try {
+															Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+															PreparedStatement ps = con.prepareStatement(query);
+															ps.setString(1,updatespecialization);
+															ps.setString(2,updateId);
+														    ps.executeUpdate();
+														    System.out.println("Doctor: Update Specialization Success");
+															
+														} catch (SQLException e1) {
+															System.out.println("Doctor: Update specialization error");
+														}
+													
+												}
+												
+											});
+											
+											c7.add(upSpDocIdLbl);
+											c7.add(upSpDocIdTxt);
+											c7.add(upDocSpecializationLbl);
+											c7.add(upDocSpecializationTxt);
+											c7.add(upSpecializationBtn);
+											
+											break;
+											
+										case "Update experience" :
+											
+											JFrame docUpExpFr = new JFrame("Update Experience");
+											docUpExpFr.setVisible(true);
+											docUpExpFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											docUpExpFr.setBounds(200,100,700,500);
+											Container c8 = docUpExpFr.getContentPane();
+											c8.setLayout(null);
+											
+											JLabel upExpDocIdLbl = new JLabel("ID");
+											upExpDocIdLbl.setBounds(50,60,60,30);
+											JTextField upExpDocIdTxt = new JTextField();
+											upExpDocIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upDocExperienceLbl = new JLabel("Experience");
+											upDocExperienceLbl.setBounds(50,100,90,30);
+											JTextField upDocExperienceTxt = new JTextField();
+											upDocExperienceTxt.setBounds(140,100,150,30);
+											
+											JButton upExperienceBtn = new JButton("Submit");
+											upExperienceBtn.setBounds(165,140,90,30);
+											
+											upExperienceBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateExpId = upExpDocIdTxt.getText();
+													String updateExpExperience = upDocExperienceTxt.getText();
+											
+															String query = "Update doctor set experience = ? where id = ?";
+															try {
+																Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+																PreparedStatement ps = con.prepareStatement(query);
+																ps.setString(1,updateExpExperience);
+																ps.setString(2,updateExpId);
+															    ps.executeUpdate();
+															    System.out.println("Doctor: Update experience Success");
+																
+															} catch (SQLException e1) {
+																System.out.println("Doctor: Update experience error");
+															}
+													
+												}
+												
+											});
+											
+											c8.add(upExpDocIdLbl);
+											c8.add(upExpDocIdTxt);
+											c8.add(upDocExperienceLbl);
+											c8.add(upDocExperienceTxt);
+											c8.add(upExperienceBtn);
+											
+											break;
+											
+										case "Update salary" :
+											
+											JFrame docUpSalFr = new JFrame("Update Salary");
+											docUpSalFr.setVisible(true);
+											docUpSalFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											docUpSalFr.setBounds(200,100,700,500);
+											Container c9 = docUpSalFr.getContentPane();
+											c9.setLayout(null);
+											
+											JLabel upSalDocIdLbl = new JLabel("ID");
+											upSalDocIdLbl.setBounds(50,60,60,30);
+											JTextField upSalDocIdTxt = new JTextField();
+											upSalDocIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upDocSalaryLbl = new JLabel("Salary");
+											upDocSalaryLbl.setBounds(50,100,90,30);
+											JTextField upDocSalaryTxt = new JTextField();
+											upDocSalaryTxt.setBounds(140,100,150,30);
+											
+											JButton upSalaryBtn = new JButton("Submit");
+											upSalaryBtn.setBounds(165,140,90,30);
+											
+											upSalaryBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateSalId = upSalDocIdTxt.getText();
+													String updateSalSalary = upDocSalaryTxt.getText();
+													
+													String query = "Update doctor set salary = ? where id = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setString(1,updateSalSalary);
+														ps.setString(2,updateSalId);
+													    ps.executeUpdate();
+													    System.out.println("Doctor: Update salary Success");
+														
+													} catch (SQLException e1) {
+														System.out.println("Doctor: Update salary error");
+													}
+													
+												}
+												
+											});
+											
+											c9.add(upSalDocIdLbl);
+											c9.add(upSalDocIdTxt);
+											c9.add(upDocSalaryLbl);
+											c9.add(upDocSalaryTxt);
+											c9.add(upSalaryBtn);
+											
+											break;	
+										
+										}
+										
+									}
+									
+								});
+								
+								c5.add(adminModLabel);
+								c5.add(adminModCombo);
+								c5.add(adminModButton);
+								
+								break;
+								
+							case "view Doctor":
+								
+								JFrame viewDoctorFr = new JFrame("View Frame");
+								viewDoctorFr.setVisible(true);
+								viewDoctorFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								viewDoctorFr.setBounds(200,100,700,500);
+								Container c10 = viewDoctorFr.getContentPane();
+								c10.setLayout(null);
+								
+								try {
+									Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+								    String query = "Select * from doctor";
+								    Statement viewStmt = con.createStatement();
+								    ResultSet rs = viewStmt.executeQuery(query);
+								    
+								    
+								    int i=60;
+								    while(rs.next()) {
+								    String id=rs.getString(1);
+								    String name=rs.getString(2);
+								    String specialization=rs.getString(3);
+								    String experience=rs.getString(4);
+								    String salary=rs.getString(5);
+								    
+								    String printLine = id+"   "+name+"   "+specialization+"   "+experience+"   "+salary;
+								    JLabel printLbl = new JLabel(printLine);
+								    printLbl.setBounds(50,i,300,30);
+								    c10.add(printLbl);
+								    i=i+40;
+								
+							        }
+								}
+								catch(SQLException e1) {
+									System.out.println("Doctor view failed");
+								}
+								
+								break;
+								
+							case "Add Nurse":
+								
+                                adminFrame.dispose();
+								
+								JFrame adminNrFr = new JFrame("Add Nurse");
+								adminNrFr.setVisible(true);
+								adminNrFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								adminNrFr.setBounds(200,100,700,500);
+								Container c11 = adminNrFr.getContentPane();
+								c11.setLayout(null);
+								
+								JLabel adminNrIdLbl = new JLabel("ID");
+								adminNrIdLbl.setBounds(50,60,60,30);
+								JTextField adminNrIdTxt = new JTextField();
+								adminNrIdTxt.setBounds(140,60,150,30);
+								
+								JLabel adminNrNameLbl = new JLabel("NAME");
+								adminNrNameLbl.setBounds(50,100,60,30);
+								JTextField adminNrNameTxt = new JTextField();
+								adminNrNameTxt.setBounds(140,100,150,30);
+
+								JLabel adminNrExperienceLbl = new JLabel("Experience");
+								adminNrExperienceLbl.setBounds(50,180,90,30);
+								JTextField adminNrExperienceTxt = new JTextField();
+								adminNrExperienceTxt.setBounds(140,180,150,30);
+								
+								JLabel adminNrSalaryLbl = new JLabel("Salary");
+								adminNrSalaryLbl.setBounds(50,220,60,30);
+								JTextField adminNrSalaryTxt = new JTextField();
+								adminNrSalaryTxt.setBounds(140,220,150,30);
+								
+								JButton adminNrBtn = new JButton("Insert");
+								adminNrBtn.setBounds(165,260,90,30);
+								
+								
+								adminNrBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent e) {
+										
+										String NrId = adminNrIdTxt.getText();
+										String NrName = adminNrNameTxt.getText();
+										int NrExperience = Integer.parseInt(adminNrExperienceTxt.getText());
+										int NrSalary = Integer.parseInt(adminNrSalaryTxt.getText());
+										
+										
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											
+											nurse.addNurse(con, NrId, NrName,  NrExperience, NrSalary);
+										    }
+										catch(SQLException e1) {
+											System.out.println("Sql Exception in main()");
+											System.exit(1);
+										    }
+										
+										
+										
+									}
+									
+								});
+								
+								c11.add(adminNrIdTxt);
+								c11.add(adminNrNameTxt);
+								c11.add(adminNrExperienceTxt);
+								c11.add(adminNrSalaryTxt);
+								c11.add(adminNrIdLbl);
+								c11.add(adminNrNameLbl);
+								c11.add(adminNrExperienceLbl);
+								c11.add(adminNrSalaryLbl);
+								c11.add(adminNrBtn);
+								
+								c11.revalidate();
+								
+								break;
+								
+							case "Remove Nurse":
+								
+								JFrame adminRmNrFr = new JFrame("Remove Nurse");
+								adminRmNrFr.setVisible(true);
+								adminRmNrFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								adminRmNrFr.setBounds(200,100,700,500);
+								Container c12 = adminRmNrFr.getContentPane();
+								c12.setLayout(null);
+								
+								JLabel adminRmNrFrIdLbl = new JLabel("ID");
+								adminRmNrFrIdLbl.setBounds(50,60,60,30);
+								JTextField adminRmNrFrIdTxt = new JTextField();
+								adminRmNrFrIdTxt.setBounds(140,60,150,30);
+								
+								JButton adminRmNrFrIdBtn = new JButton("Submit");
+								adminRmNrFrIdBtn.setBounds(320,60,90,30);
+								
+								adminRmNrFrIdBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent e) {
+										String RmNrId = adminRmNrFrIdTxt.getText();
+										
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											
+											nurse.removeNurse(con,RmNrId);
+										    }
+										catch(SQLException e1) {
+											System.out.println("Sql Exception in main()");
+											System.exit(1);
+										    }
+										
+										
+									}
+									
+								});
+								
+								c12.add(adminRmNrFrIdLbl);
+								c12.add(adminRmNrFrIdTxt);
+								c12.add(adminRmNrFrIdBtn);
+								
+								break;
+								
+							case "Modify Nurse":
+								
+								JFrame adminModNrFr = new JFrame("Modify Doctor");
+								adminModNrFr.setVisible(true);
+								adminModNrFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								adminModNrFr.setBounds(200,100,700,500);
+								Container c14 = adminModNrFr.getContentPane();
+								c14.setLayout(null);
+								
+								JLabel adminModNrLabel = new JLabel("Operations");
+								adminModNrLabel.setBounds(50,60,90,30);
+								
+								String[] adminModNrOpr = {"Update Name","Update experience","Update salary"};
+								JComboBox adminModNrCombo = new JComboBox(adminModNrOpr);
+								adminModNrCombo.setBounds(130,60,90,25);
+								
+								JButton adminModNrButton = new JButton("Submit");
+								adminModNrButton.setBounds(230,60,80,25);
+								
+								adminModNrButton.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String NrOperation = (String)adminModNrCombo.getSelectedItem();
+										
+										switch(NrOperation) {
+										
+										case "Update Name" :
+											JFrame NrUpFr = new JFrame("Update Name");
+											NrUpFr.setVisible(true);
+											NrUpFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											NrUpFr.setBounds(200,100,700,500);
+											Container c15 = NrUpFr.getContentPane();
+											c15.setLayout(null);
+											
+											JLabel upNrIdLbl = new JLabel("ID");
+											upNrIdLbl.setBounds(50,60,60,30);
+											JTextField upNrIdTxt = new JTextField();
+											upNrIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upNrNameLbl = new JLabel("Name");
+											upNrNameLbl.setBounds(50,100,60,30);
+											JTextField upNrNameTxt = new JTextField();
+											upNrNameTxt.setBounds(140,100,150,30);
+											
+											JButton upNrBtn = new JButton("Submit");
+											upNrBtn.setBounds(165,140,90,30);
+											
+											upNrBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateNrId = upNrIdTxt.getText();
+													String updateNrName = upNrNameTxt.getText();
+													String query = "Update nurse set name = ? where id = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setString(1,updateNrName);
+														ps.setString(2,updateNrId);
+													    ps.executeUpdate();
+													    System.out.println("Nurse: Update Name Success");
+														
+													} catch (SQLException e1) {
+														System.out.println("Nurse: Update name error");
+													}
+													
+												}
+												
+											});
+											
+											c15.add(upNrIdLbl);
+											c15.add(upNrIdTxt);
+											c15.add(upNrNameLbl);
+											c15.add(upNrNameTxt);
+											c15.add(upNrBtn);
+										
+											
+											break;
+											
+										
+											
+										case "Update experience" :
+											
+											JFrame NrUpExpFr = new JFrame("Update Experience");
+											NrUpExpFr.setVisible(true);
+											NrUpExpFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											NrUpExpFr.setBounds(200,100,700,500);
+											Container c16 = NrUpExpFr.getContentPane();
+											c16.setLayout(null);
+											
+											JLabel upExpNrIdLbl = new JLabel("ID");
+											upExpNrIdLbl.setBounds(50,60,60,30);
+											JTextField upExpNrIdTxt = new JTextField();
+											upExpNrIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upNrExperienceLbl = new JLabel("Experience");
+											upNrExperienceLbl.setBounds(50,100,90,30);
+											JTextField upNrExperienceTxt = new JTextField();
+											upNrExperienceTxt.setBounds(140,100,150,30);
+											
+											JButton upExperienceNrBtn = new JButton("Submit");
+											upExperienceNrBtn.setBounds(165,140,90,30);
+											
+											upExperienceNrBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateExpNrId = upExpNrIdTxt.getText();
+													int updateExpNrExperience = Integer.parseInt(upNrExperienceTxt.getText());
+											
+															String query = "Update nurse set experience = ? where id = ?";
+															try {
+																Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+																PreparedStatement ps = con.prepareStatement(query);
+																ps.setInt(1,updateExpNrExperience);
+																ps.setString(2,updateExpNrId);
+															    ps.executeUpdate();
+															    System.out.println("Nurse: Update experience Success");
+																
+															} catch (SQLException e1) {
+																System.out.println("Nurse: Update experience error");
+															}
+													
+												}
+												
+											});
+											
+											c16.add(upExpNrIdLbl);
+											c16.add(upExpNrIdTxt);
+											c16.add(upNrExperienceLbl);
+											c16.add(upNrExperienceTxt);
+											c16.add(upExperienceNrBtn);
+											
+											break;
+											
+										case "Update salary" :
+											
+											JFrame NrUpSalFr = new JFrame("Update Salary");
+											NrUpSalFr.setVisible(true);
+											NrUpSalFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											NrUpSalFr.setBounds(200,100,700,500);
+											Container c17 = NrUpSalFr.getContentPane();
+											c17.setLayout(null);
+											
+											JLabel upSalNrIdLbl = new JLabel("ID");
+											upSalNrIdLbl.setBounds(50,60,60,30);
+											JTextField upSalNrIdTxt = new JTextField();
+											upSalNrIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upNrSalaryLbl = new JLabel("Salary");
+											upNrSalaryLbl.setBounds(50,100,90,30);
+											JTextField upNrSalaryTxt = new JTextField();
+											upNrSalaryTxt.setBounds(140,100,150,30);
+											
+											JButton upSalaryNrBtn = new JButton("Submit");
+											upSalaryNrBtn.setBounds(165,140,90,30);
+											
+											upSalaryNrBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateNrSalId = upSalNrIdTxt.getText();
+													int updateNrSalSalary = Integer.parseInt(upNrSalaryTxt.getText());
+													
+													String query = "Update nurse set salary = ? where id = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setInt(1,updateNrSalSalary);
+														ps.setString(2,updateNrSalId);
+													    ps.executeUpdate();
+													    System.out.println("Nurse: Update salary Success");
+														
+													} catch (SQLException e1) {
+														System.out.println("Nurse: Update salary error");
+													}
+													
+												}
+												
+											});
+											
+											c17.add(upSalNrIdLbl);
+											c17.add(upSalNrIdTxt);
+											c17.add(upNrSalaryLbl);
+											c17.add(upNrSalaryTxt);
+											c17.add(upSalaryNrBtn);
+                                       }
+										
+									}
+									
+								});
+								
+								c14.add(adminModNrLabel);
+								c14.add(adminModNrCombo);
+								c14.add(adminModNrButton);
+								break;
+								
+							case "View Nurse":
+								
+								JFrame viewNurseFr = new JFrame("View Nurse");
+								viewNurseFr.setVisible(true);
+								viewNurseFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								viewNurseFr.setBounds(200,100,700,500);
+								Container c13 = viewNurseFr.getContentPane();
+								c13.setLayout(null);
+								
+								try {
+									Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+								    String query = "Select * from nurse";
+								    Statement viewStmt = con.createStatement();
+								    ResultSet rs = viewStmt.executeQuery(query);
+								    
+								    
+								    int i=60;
+								    while(rs.next()) {
+								    String id=rs.getString(1);
+								    String name=rs.getString(2);
+								    int experience=rs.getInt(3);
+								    int salary=rs.getInt(4);
+								    
+								    String printLine = id+"   "+name+"     "+experience+"   "+salary;
+								    JLabel printLbl = new JLabel(printLine);
+								    printLbl.setBounds(50,i,300,30);
+								    c13.add(printLbl);
+								    i=i+40;
+								
+							        }
+								}
+								catch(SQLException e1) {
+									System.out.println("Nurse view failed");
+								}
+								
+								break;	
+							
+							}
+							
+						}
+
+					});
+					
+					c2.add(adminLabel);
+					c2.add(adminCombo);
+					c2.add(adminButton);
+					break;
+					
+				case "Doctor" :
+					
+					JFrame docFr = new JFrame("Doctor");
+					docFr.setBounds(200,100,700,500);
+					docFr.setVisible(true);
+		            Container cd = docFr.getContentPane();
+		            cd.setLayout(null);
+		            
+		            JLabel docOperationLbl = new JLabel("Operation");
+		            docOperationLbl.setBounds(50,60,90,30);
+		            
+		            String[] oper = {"Add Patient", "Remove Patient", "Modify Patient", "View Patient"}; 
+		            JComboBox docOperationCombo = new JComboBox(oper);
+		            docOperationCombo.setBounds(140,60,100,30);
+		            
+		            JButton docButton = new JButton("submit");
+		            docButton.setBounds(250,60,90,30);
+					
+		            docButton.addActionListener(new ActionListener() {
+
+						public void actionPerformed(ActionEvent arg0) {
+							
+							String selectedOp = (String) docOperationCombo.getSelectedItem();
+							
+							switch(selectedOp) {
+							
+							case "Add Patient" :
+								docFr.dispose();
+								
+								JFrame addPtFr = new JFrame("Add Patient");
+								addPtFr.setBounds(200,100,700,500);
+								addPtFr.setVisible(true);
+								addPtFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					            Container cda = addPtFr.getContentPane();
+					            cda.setLayout(null);
+					            
+					            JLabel addPtIdLbl = new JLabel("ID");
+					            addPtIdLbl.setBounds(50,60,60,30);
+								JTextField addPtIdTxt = new JTextField();
+								addPtIdTxt.setBounds(140,60,150,30);
+								
+								JLabel addPtNameLbl = new JLabel("NAME");
+								addPtNameLbl.setBounds(50,100,60,30);
+								JTextField addPtNameTxt = new JTextField();
+								addPtNameTxt.setBounds(140,100,150,30);
+								
+								JLabel addPtIllnessLbl = new JLabel("Illness");
+								addPtIllnessLbl.setBounds(50,140,90,30);
+								JTextField addPtIllnessTxt = new JTextField();
+								addPtIllnessTxt.setBounds(140,140,150,30);
+								
+								JLabel addPtMedicineLbl = new JLabel("Medicine");
+								addPtMedicineLbl.setBounds(50,180,90,30);
+								JTextField addPtMedicineTxt = new JTextField();
+								addPtMedicineTxt.setBounds(140,180,150,30);
+								
+								JLabel addPtNurse_idLbl = new JLabel("Nurse_id");
+								addPtNurse_idLbl.setBounds(50,220,60,30);
+								JTextField addPtNurse_idTxt = new JTextField();
+								addPtNurse_idTxt.setBounds(140,220,150,30);
+								
+								JButton addPtBtn = new JButton("Insert");
+								addPtBtn.setBounds(165,260,90,30);
+								
+								
+								addPtBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent e) {
+										
+										String PtId = addPtIdTxt.getText();
+										String PtName = addPtNameTxt.getText();
+										String PtIllness = addPtIllnessTxt.getText();
+										String PtMedicine = addPtMedicineTxt.getText();
+										String PtNurse_id = addPtNurse_idTxt.getText();
+										
+										
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											
+											patient.addPatient(con, PtId, PtName, PtIllness, PtMedicine, PtNurse_id);
+										    }
+										catch(SQLException e1) {
+											System.out.println("Sql Exception in main()");
+											System.exit(1);
+										    }
+										
+										
+										
+									}
+									
+								});
+								
+								cda.add(addPtIdTxt);
+								cda.add(addPtNameTxt);
+								cda.add(addPtIllnessTxt);
+								cda.add(addPtMedicineTxt);
+								cda.add(addPtNurse_idTxt);
+								cda.add(addPtIdLbl);
+								cda.add(addPtNameLbl);
+								cda.add(addPtIllnessLbl);
+								cda.add(addPtMedicineLbl);
+								cda.add(addPtNurse_idLbl);
+								cda.add(addPtBtn);
+								
+								cda.revalidate();
+
+								
+								break;
+								
+							case "Remove Patient" :
+								
+                                docFr.dispose();
+								
+								JFrame RmPtFr = new JFrame("Remove Patient");
+								RmPtFr.setBounds(200,100,700,500);
+								RmPtFr.setVisible(true);
+								RmPtFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					            Container cdr = RmPtFr.getContentPane();
+					            cdr.setLayout(null);
+					            
+					            JLabel RmPtIdLbl = new JLabel("ID");
+					            RmPtIdLbl.setBounds(50,60,60,30);
+								JTextField RmPtIdTxt = new JTextField();
+								RmPtIdTxt.setBounds(140,60,150,30);
+								
+								JButton RmPtBtn = new JButton("Submit");
+								RmPtBtn.setBounds(320,60,90,30);
+								
+								RmPtBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent e) {
+										String RmPtId = RmPtIdTxt.getText();
+										
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											
+											patient.removePatient(con,RmPtId);
+										    }
+										catch(SQLException e1) {
+											System.out.println("Sql Exception in main()");
+											System.exit(1);
+										    }
+									}
+								});
+								
+								cdr.add(RmPtIdLbl);
+								cdr.add(RmPtIdTxt);
+								cdr.add(RmPtBtn);
+								
+								RmPtFr.revalidate();
+								
+								break;
+								
+							case "Modify Patient" :
+								
+								JFrame PatientModFr = new JFrame("Modify Patient");
+								PatientModFr.setVisible(true);
+								PatientModFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								PatientModFr.setBounds(200,100,700,500);
+								Container cpm = PatientModFr.getContentPane();
+								cpm.setLayout(null);
+								
+								JLabel PatientModLabel = new JLabel("Operations");
+								PatientModLabel.setBounds(50,60,90,30);
+								
+								String[] PatientModOpr = {"Update Name","Update Illness","Update Medicine","Update Nurse Id"};
+								JComboBox PatientModCombo = new JComboBox(PatientModOpr);
+								PatientModCombo.setBounds(130,60,90,25);
+								
+								JButton PatientModButton = new JButton("Submit");
+								PatientModButton.setBounds(230,60,80,25);
+								
+								PatientModButton.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String PtModOperation = (String)PatientModCombo.getSelectedItem();
+										
+										switch(PtModOperation) {
+										
+										case "Update Name" :
+											JFrame PtUpFr = new JFrame("Update Name");
+											PtUpFr.setVisible(true);
+											PtUpFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											PtUpFr.setBounds(200,100,700,500);
+											Container c6 = PtUpFr.getContentPane();
+											c6.setLayout(null);
+											
+											JLabel upPtIdLbl = new JLabel("ID");
+											upPtIdLbl.setBounds(50,60,60,30);
+											JTextField upPtIdTxt = new JTextField();
+											upPtIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upPtNameLbl = new JLabel("Name");
+											upPtNameLbl.setBounds(50,100,60,30);
+											JTextField upPtNameTxt = new JTextField();
+											upPtNameTxt.setBounds(140,100,150,30);
+											
+											JButton upPtBtn = new JButton("Submit");
+											upPtBtn.setBounds(165,140,90,30);
+											
+											upPtBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updatePtId = upPtIdTxt.getText();
+													String updatePtName = upPtNameTxt.getText();
+													String query = "Update patient set name = ? where id = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setString(1,updatePtName);
+														ps.setString(2,updatePtId);
+													    ps.executeUpdate();
+													    System.out.println("Patient: Update Name Success");
+														
+													} catch (SQLException e1) {
+														System.out.println("Patient: Update name error");
+													}
+													
+												}
+												
+											});
+											
+											c6.add(upPtIdLbl);
+											c6.add(upPtIdTxt);
+											c6.add(upPtNameLbl);
+											c6.add(upPtNameTxt);
+											c6.add(upPtBtn);
+										
+											
+											break;
+											
+										case "Update Illness" :
+											
+											JFrame IllPtFr = new JFrame("Update Illness");
+											IllPtFr.setVisible(true);
+											IllPtFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											IllPtFr.setBounds(200,100,700,500);
+											Container c7 = IllPtFr.getContentPane();
+											c7.setLayout(null);
+											
+											JLabel upIllPtIdLbl = new JLabel("ID");
+											upIllPtIdLbl.setBounds(50,60,60,30);
+											JTextField upIllPtIdTxt = new JTextField();
+											upIllPtIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upPtIllnessLbl = new JLabel("Illness");
+											upPtIllnessLbl.setBounds(50,100,90,30);
+											JTextField upPtIllnessTxt = new JTextField();
+											upPtIllnessTxt.setBounds(140,100,150,30);
+											
+											JButton upPtIllnessBtn = new JButton("Submit");
+											upPtIllnessBtn.setBounds(165,140,90,30);
+											
+											upPtIllnessBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateId = upIllPtIdTxt.getText();
+													String updateIllness = upPtIllnessTxt.getText();
+													
+													String query = "Update patient set illness = ? where id = ?";
+														try {
+															Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+															PreparedStatement ps = con.prepareStatement(query);
+															ps.setString(1,updateIllness);
+															ps.setString(2,updateId);
+														    ps.executeUpdate();
+														    System.out.println("Patient: Update Illness Success");
+															
+														} catch (SQLException e1) {
+															System.out.println("Patient: Update Illness error");
+														}
+													
+												}
+												
+											});
+											
+											c7.add(upIllPtIdLbl);
+											c7.add(upIllPtIdTxt);
+											c7.add(upPtIllnessLbl);
+											c7.add(upPtIllnessTxt);
+											c7.add(upPtIllnessBtn);
+											
+											break;
+											
+										case "Update Medicine" :
+											
+											JFrame ptUpMedFr = new JFrame("Update Medicine");
+											ptUpMedFr.setVisible(true);
+											ptUpMedFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											ptUpMedFr.setBounds(200,100,700,500);
+											Container c8 = ptUpMedFr.getContentPane();
+											c8.setLayout(null);
+											
+											JLabel ptUpMedIdLbl = new JLabel("ID");
+											ptUpMedIdLbl.setBounds(50,60,60,30);
+											JTextField ptUpMedIdTxt = new JTextField();
+											ptUpMedIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upPtMedicineLbl = new JLabel("Medicine");
+											upPtMedicineLbl.setBounds(50,100,90,30);
+											JTextField upPtMedicineTxt = new JTextField();
+											upPtMedicineTxt.setBounds(140,100,150,30);
+											
+											JButton upPtMedicineBtn = new JButton("Submit");
+											upPtMedicineBtn.setBounds(165,140,90,30);
+											
+											upPtMedicineBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateMedId = ptUpMedIdTxt.getText();
+													String updateMedMedicine = upPtMedicineTxt.getText();
+											
+															String query = "Update patient set Medicine = ? where id = ?";
+															try {
+																Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+																PreparedStatement ps = con.prepareStatement(query);
+																ps.setString(1,updateMedMedicine);
+																ps.setString(2,updateMedId);
+															    ps.executeUpdate();
+															    System.out.println("Patient: Update Medicine Success");
+																
+															} catch (SQLException e1) {
+																System.out.println("Patient: Update Medicine error");
+															}
+													
+												}
+												
+											});
+											
+											c8.add(ptUpMedIdLbl);
+											c8.add(ptUpMedIdTxt);
+											c8.add(upPtMedicineLbl);
+											c8.add(upPtMedicineTxt);
+											c8.add(upPtMedicineBtn);
+											
+											break;
+											
+										case "Update Nurse Id" :
+											
+											JFrame PtUpNrFr = new JFrame("Update Nurse Id");
+											PtUpNrFr.setVisible(true);
+											PtUpNrFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											PtUpNrFr.setBounds(200,100,700,500);
+											Container c9 = PtUpNrFr.getContentPane();
+											c9.setLayout(null);
+											
+											JLabel upPtNrIdLbl = new JLabel("ID");
+											upPtNrIdLbl.setBounds(50,60,60,30);
+											JTextField upPtNrIdTxt = new JTextField();
+											upPtNrIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upPtNurseIdLbl = new JLabel("Nurse Id");
+											upPtNurseIdLbl.setBounds(50,100,90,30);
+											JTextField upPtNurseIdTxt = new JTextField();
+											upPtNurseIdTxt.setBounds(140,100,150,30);
+											
+											JButton upPtNrIdBtn = new JButton("Submit");
+											upPtNrIdBtn.setBounds(165,140,90,30);
+											
+											upPtNrIdBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateNrIdId = upPtNrIdTxt.getText();
+													String updateNrIdNurse = upPtNurseIdTxt.getText();
+													
+													String query = "Update patient set Nurse_id = ? where id = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setString(1,updateNrIdNurse);
+														ps.setString(2,updateNrIdId);
+													    ps.executeUpdate();
+													    System.out.println("Patient: Update Nurse ID Success");
+														
+													} catch (SQLException e1) {
+														System.err.println(e1.getClass().getName() + ": " + e1.getMessage());
+														System.out.println("Patient: Update Nurse ID error");
+													}
+													
+												}
+												
+											});
+											
+											c9.add(upPtNrIdLbl);
+											c9.add(upPtNrIdTxt);
+											c9.add(upPtNurseIdLbl);
+											c9.add(upPtNurseIdTxt);
+											c9.add(upPtNrIdBtn);
+											
+											break;	
+										
+										}
+										
+									}
+									
+								});
+								
+								cpm.add(PatientModLabel);
+								cpm.add(PatientModCombo);
+								cpm.add(PatientModButton);
+								
+								break;	
+								
+							case "View Patient" :
+								
+								JFrame viewPatientFr = new JFrame("View Patient");
+								viewPatientFr.setVisible(true);
+								viewPatientFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								viewPatientFr.setBounds(200,100,700,500);
+								Container c10 = viewPatientFr.getContentPane();
+								c10.setLayout(null);
+								
+								try {
+									Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+								    String query = "Select * from patient";
+								    Statement viewStmt = con.createStatement();
+								    ResultSet rs = viewStmt.executeQuery(query);
+								    
+								    
+								    int i=60;
+								    while(rs.next()) {
+								    String id=rs.getString(1);
+								    String name=rs.getString(2);
+								    String illness=rs.getString(3);
+								    String medicine=rs.getString(4);
+								    String Nurse_id=rs.getString(5);
+								    
+								    String printLine = id+"   "+name+"   "+illness+"   "+medicine+"   "+Nurse_id;
+								    JLabel printLbl = new JLabel(printLine);
+								    printLbl.setBounds(50,i,300,30);
+								    c10.add(printLbl);
+								    i=i+40;
+								
+							        }
+								}
+								catch(SQLException e1) {
+									System.out.println("Doctor view failed");
+								}
+								
+                            }
+							
+						}
+		            	
+		            });
+		            
+		            cd.add(docOperationLbl);
+		            cd.add(docOperationCombo);
+		            cd.add(docButton);
+					break;
+				
+				
+					
+				case "Nurse" :
+					
+					JFrame viewPatientFr = new JFrame("View Patient");
+					viewPatientFr.setVisible(true);
+					viewPatientFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					viewPatientFr.setBounds(200,100,700,500);
+					Container c10 = viewPatientFr.getContentPane();
+					c10.setLayout(null);
+					
+					try {
+						Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+					    String query = "Select * from patient";
+					    Statement viewStmt = con.createStatement();
+					    ResultSet rs = viewStmt.executeQuery(query);
+					    
+					    
+					    int i=60;
+					    while(rs.next()) {
+					    String id=rs.getString(1);
+					    String name=rs.getString(2);
+					    String illness=rs.getString(3);
+					    String medicine=rs.getString(4);
+					    String Nurse_id=rs.getString(5);
+					    
+					    String printLine = id+"   "+name+"   "+illness+"   "+medicine+"   "+Nurse_id;
+					    JLabel printLbl = new JLabel(printLine);
+					    printLbl.setBounds(50,i,300,30);
+					    c10.add(printLbl);
+					    i=i+40;
+					
+				        }
+					}
+					catch(SQLException e1) {
+						System.out.println("Doctor view failed");
+					}
+					
+					break;
+					
+				case "Accountant" :
+					
+					JFrame accountFr = new JFrame("Accounts");
+					accountFr.setBounds(200,100,700,500);
+					accountFr.setVisible(true);
+					Container accountFrC = accountFr.getContentPane();
+					accountFrC.setLayout(null);
+					
+					JLabel accountsOpLbl = new JLabel("Operation");
+					accountsOpLbl.setBounds(50,60,90,30);
+					
+					String[] oprs = {"Add account","Remove account","Modify account","View account"};
+					JComboBox accountsOprsCombo = new JComboBox(oprs);
+					accountsOprsCombo.setBounds(130,60,100,30);
+					
+					JButton accountsBtn = new JButton("Submit");
+					accountsBtn.setBounds(250,60,90,30);
+					
+					accountsBtn.addActionListener(new ActionListener() {
+
+						public void actionPerformed(ActionEvent arg0) {
+							
+							String SelectedOp = (String) accountsOprsCombo.getSelectedItem();
+							switch(SelectedOp) {
+							
+							case "Add account" :
+								accountFr.dispose();
+								
+								JFrame addAcc = new JFrame("Add Account");
+								addAcc.setBounds(200,100,700,500);
+								addAcc.setVisible(true);
+								addAcc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								Container addAccC = addAcc.getContentPane();
+								addAccC.setLayout(null);
+								
+								JLabel accPtIdLbl = new JLabel("Patient ID");
+								accPtIdLbl.setBounds(50,60,60,30);
+								JTextField accPtIdTxt = new JTextField();
+								accPtIdTxt.setBounds(140,60,150,30);
+								
+								JLabel accBillLbl = new JLabel("Bill");
+								accBillLbl.setBounds(50,100,60,30);
+								JTextField accBillTxt = new JTextField();
+								accBillTxt.setBounds(140,100,150,30);
+								
+								JLabel accSOBLbl = new JLabel("Status of Bill");
+								accSOBLbl.setBounds(50,140,90,30);
+								JTextField accSOBTxt = new JTextField();
+								accSOBTxt.setBounds(140,140,150,30);
+								
+								JButton accInsertBtn = new JButton("Insert");
+								accInsertBtn.setBounds(165,180,90,30);
+								
+								accInsertBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String PtId = accPtIdTxt.getText();
+										int Bill = Integer.parseInt(accBillTxt.getText());
+										String SOB = accSOBTxt.getText();
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+										    account.addAccount(con, PtId, Bill, SOB);
+										}
+										catch(SQLException e) {
+											System.out.println("Account Insertion Error");
+										}
+										
+									}
+									
+								});
+								
+								addAccC.add(accPtIdLbl);
+								addAccC.add(accPtIdTxt);
+								addAccC.add(accBillLbl);
+								addAccC.add(accBillTxt);
+								addAccC.add(accSOBLbl);
+								addAccC.add(accSOBTxt);
+								addAccC.add(accInsertBtn);
+								
+								break;
+								
+							case "Remove account" :
+								accountFr.dispose();
+								
+								JFrame rmAcc = new JFrame("Add Account");
+								rmAcc.setBounds(200,100,700,500);
+								rmAcc.setVisible(true);
+								rmAcc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								Container rmAccC = rmAcc.getContentPane();
+								rmAccC.setLayout(null);
+								
+								JLabel accRmPtIdLbl = new JLabel("Patient ID");
+								accRmPtIdLbl.setBounds(50,60,60,30);
+								JTextField accRmPtIdTxt = new JTextField();
+								accRmPtIdTxt.setBounds(140,60,150,30);
+								
+								JButton accRmBtn = new JButton("Remove");
+								accRmBtn.setBounds(165,100,90,30);
+								
+								accRmBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String toRmPtId = accRmPtIdTxt.getText();
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											account.removeAccount(con, toRmPtId);
+										}
+										catch(SQLException e) {
+											System.out.println("Account Remove Error");
+										}
+										
+									}
+									
+								});
+								
+								rmAccC.add(accRmPtIdLbl);
+								rmAccC.add(accRmPtIdTxt);
+								rmAccC.add(accRmBtn);
+								
+								break;
+								
+							case "Modify account" :
+								accountFr.dispose();
+								
+								JFrame accModFr = new JFrame("Modify account");
+								accModFr.setVisible(true);
+								accModFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								accModFr.setBounds(200,100,700,500);
+								Container c14 = accModFr.getContentPane();
+								c14.setLayout(null);
+								
+								JLabel accModLabel = new JLabel("Operations");
+								accModLabel.setBounds(50,60,90,30);
+								
+								String[] accModOpr = {"Update Bill","Update Status of bill"};
+								JComboBox accModCombo = new JComboBox(accModOpr);
+								accModCombo.setBounds(130,60,90,25);
+								
+								JButton accModButton = new JButton("Submit");
+								accModButton.setBounds(230,60,80,25);
+								
+								accModButton.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String accModOperation = (String)accModCombo.getSelectedItem();
+										
+										switch(accModOperation) {
+									
+										case "Update Bill" :
+											
+											JFrame accModBillFr = new JFrame("Update Bill");
+											accModBillFr.setVisible(true);
+											accModBillFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											accModBillFr.setBounds(200,100,700,500);
+											Container c16 = accModBillFr.getContentPane();
+											c16.setLayout(null);
+											
+											JLabel accModBillIdLbl = new JLabel("Patient ID");
+											accModBillIdLbl.setBounds(50,60,60,30);
+											JTextField accModBillIdTxt = new JTextField();
+											accModBillIdTxt.setBounds(140,60,150,30);
+											
+											JLabel accModBillBillLbl = new JLabel("Bill");
+											accModBillBillLbl.setBounds(50,100,90,30);
+											JTextField accModBillBillTxt = new JTextField();
+											accModBillBillTxt.setBounds(140,100,150,30);
+											
+											JButton accModBillBtn = new JButton("Submit");
+											accModBillBtn.setBounds(165,140,90,30);
+											
+											accModBillBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateBillId = accModBillIdTxt.getText();
+													int updateBillBill = Integer.parseInt(accModBillBillTxt.getText());
+											
+															String query = "Update account set bill = ? where patient_id = ?";
+															try {
+																Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+																PreparedStatement ps = con.prepareStatement(query);
+																ps.setInt(1,updateBillBill);
+																ps.setString(2,updateBillId);
+															    ps.executeUpdate();
+															    System.out.println("Account: Update Bill Success");
+																
+															} catch (SQLException e1) {
+																System.out.println("Account: Update Bill error");
+															}
+													
+												}
+												
+											});
+											
+											c16.add(accModBillIdLbl);
+											c16.add(accModBillIdTxt);
+											c16.add(accModBillBillLbl);
+											c16.add(accModBillBillTxt);
+											c16.add(accModBillBtn);
+											
+											break;
+											
+										case "Update Status of bill" :
+											
+											JFrame accUpSOBFr = new JFrame("Update Status of bill");
+											accUpSOBFr.setVisible(true);
+											accUpSOBFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											accUpSOBFr.setBounds(200,100,700,500);
+											Container c17 = accUpSOBFr.getContentPane();
+											c17.setLayout(null);
+											
+											JLabel accUpIdLbl = new JLabel("Patient ID");
+											accUpIdLbl.setBounds(50,60,60,30);
+											JTextField accUpIdTxt = new JTextField();
+											accUpIdTxt.setBounds(140,60,150,30);
+											
+											JLabel upSTOBLbl = new JLabel("Status Of Bill");
+											upSTOBLbl.setBounds(50,100,90,30);
+											JTextField upSTOBTxt = new JTextField();
+											upSTOBTxt.setBounds(140,100,150,30);
+											
+											JButton accUpBtn = new JButton("Submit");
+											accUpBtn.setBounds(165,140,90,30);
+											
+											accUpBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updatePatient_idId = accUpIdTxt.getText();
+													String updateSTOB = upSTOBTxt.getText();
+													
+													String query = "Update account set status_of_bill = ? where patient_id = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setString(1,updateSTOB);
+														ps.setString(2,updatePatient_idId);
+													    ps.executeUpdate();
+													    System.out.println("Account: Update Statuf Of Bill Success");
+														
+													} catch (SQLException e1) {
+														System.out.println("Account: Update Statuf Of Bill error");
+													}
+													
+												}
+												
+											});
+											
+											c17.add(accUpIdLbl);
+											c17.add(accUpIdTxt);
+											c17.add(upSTOBLbl);
+											c17.add(upSTOBTxt);
+											c17.add(accUpBtn);
+                                       }
+										
+									}
+									
+								});
+								
+								c14.add(accModLabel);
+								c14.add(accModCombo);
+								c14.add(accModButton);
+								
+								
+								break;
+								
+							case "View account" :
+								accountFr.dispose();
+								
+								JFrame viewPatientFr = new JFrame("View Patient");
+								viewPatientFr.setVisible(true);
+								viewPatientFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								viewPatientFr.setBounds(200,100,700,500);
+								Container c10 = viewPatientFr.getContentPane();
+								c10.setLayout(null);
+								
+								try {
+									Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+								    String query = "Select * from account";
+								    Statement viewStmt = con.createStatement();
+								    ResultSet rs = viewStmt.executeQuery(query);
+								    
+								    
+								    int i=60;
+								    while(rs.next()) {
+								    String id=rs.getString(1);
+								    int bill=rs.getInt(2);
+								    String SOB=rs.getString(3);
+								    
+								    String printLine = id+"   "+bill+"   "+SOB;
+								    JLabel printLbl = new JLabel(printLine);
+								    printLbl.setBounds(50,i,300,30);
+								    c10.add(printLbl);
+								    i=i+40;
+								
+							        }
+								}
+								catch(SQLException e1) {
+									System.out.println("Patient view failed");
+								}
+								
+								break;	
+							
+							}
+							
+						}
+						
+					});
+					
+					accountFrC.add(accountsOpLbl);
+					accountFrC.add(accountsOprsCombo);
+					accountFrC.add(accountsBtn);
+					
+					break;	
+					
+					
+				case "Pharmacist" :
+					
+					JFrame pharmaFr = new JFrame("Accounts");
+					pharmaFr.setBounds(200,100,700,500);
+					pharmaFr.setVisible(true);
+					Container pharmaFrC = pharmaFr.getContentPane();
+					pharmaFrC.setLayout(null);
+					
+					JLabel pharmaOpLbl = new JLabel("Operation");
+					pharmaOpLbl.setBounds(50,60,90,30);
+					
+					String[] phOprs = {"Add Medicin","Remove Medicin","Modify Medicin","View Medicin"};
+					JComboBox pharmaOprsCombo = new JComboBox(phOprs);
+					pharmaOprsCombo.setBounds(130,60,100,30);
+					
+					JButton pharmaBtn = new JButton("Submit");
+					pharmaBtn.setBounds(250,60,90,30);
+					
+					pharmaBtn.addActionListener(new ActionListener() {
+
+						public void actionPerformed(ActionEvent arg0) {
+							
+							String SelectedOp = (String) pharmaOprsCombo.getSelectedItem();
+							switch(SelectedOp) {
+							
+							case "Add Medicin" :
+								pharmaFr.dispose();
+								
+								JFrame addMed = new JFrame("Add Medicin");
+								addMed.setBounds(200,100,700,500);
+								addMed.setVisible(true);
+								addMed.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								Container addMedC = addMed.getContentPane();
+								addMedC.setLayout(null);
+								
+								JLabel medNameLbl = new JLabel("Medicin Name");
+								medNameLbl.setBounds(50,60,60,30);
+								JTextField medNameTxt = new JTextField();
+								medNameTxt.setBounds(140,60,150,30);
+								
+								JLabel medPriceLbl = new JLabel("Price");
+								medPriceLbl.setBounds(50,100,60,30);
+								JTextField medPriceTxt = new JTextField();
+								medPriceTxt.setBounds(140,100,150,30);
+								
+								JLabel medQuantityLbl = new JLabel("Quantity");
+								medQuantityLbl.setBounds(50,140,90,30);
+								JTextField medQuantityTxt = new JTextField();
+								medQuantityTxt.setBounds(140,140,150,30);
+								
+								JButton medInsertBtn = new JButton("Insert");
+								medInsertBtn.setBounds(165,180,90,30);
+								
+								medInsertBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String medName = medNameTxt.getText();
+										int medPrice = Integer.parseInt(medPriceTxt.getText());
+										int medQuantity = Integer.parseInt(medQuantityTxt.getText());
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+										    medicin.addMedicin(con, medName, medPrice, medQuantity);
+										}
+										catch(SQLException e) {
+											System.out.println("Medicin Insertion Error");
+										}
+										
+									}
+									
+								});
+								
+								addMedC.add(medNameLbl);
+								addMedC.add(medNameTxt);
+								addMedC.add(medPriceLbl);
+								addMedC.add(medPriceTxt);
+								addMedC.add(medQuantityLbl);
+								addMedC.add(medQuantityTxt);
+								addMedC.add(medInsertBtn);
+								
+								break;
+								
+							case "Remove Medicin" :
+								pharmaFr.dispose();
+								
+								JFrame rmPh = new JFrame("Remove Medicin");
+								rmPh.setBounds(200,100,700,500);
+								rmPh.setVisible(true);
+								rmPh.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								Container phC = rmPh.getContentPane();
+								phC.setLayout(null);
+								
+								JLabel phRmMedNameLbl = new JLabel("Name");
+								phRmMedNameLbl.setBounds(50,60,60,30);
+								JTextField phRmMedNameTxt = new JTextField();
+								phRmMedNameTxt.setBounds(140,60,150,30);
+								
+								JButton phRmBtn = new JButton("Remove");
+								phRmBtn.setBounds(165,100,90,30);
+								
+								phRmBtn.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String toRmMedName = phRmMedNameTxt.getText();
+										try {
+											Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+											medicin.removeMedicin(con, toRmMedName);
+										}
+										catch(SQLException e) {
+											System.out.println("Medicin Remove Error");
+										}
+										
+									}
+									
+								});
+								
+								phC.add(phRmMedNameLbl);
+								phC.add(phRmMedNameTxt);
+								phC.add(phRmBtn);
+								
+								break;
+								
+							case "Modify Medicin" :
+								pharmaFr.dispose();
+								
+								JFrame phModFr = new JFrame("Modify Medicin");
+								phModFr.setVisible(true);
+								phModFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								phModFr.setBounds(200,100,700,500);
+								Container c14 = phModFr.getContentPane();
+								c14.setLayout(null);
+								
+								JLabel phModLabel = new JLabel("Operations");
+								phModLabel.setBounds(50,60,90,30);
+								
+								String[] phModOpr = {"Update Price","Update Quantity"};
+								JComboBox phModCombo = new JComboBox(phModOpr);
+								phModCombo.setBounds(130,60,90,25);
+								
+								JButton phModButton = new JButton("Submit");
+								phModButton.setBounds(230,60,80,25);
+								
+								phModButton.addActionListener(new ActionListener() {
+
+									public void actionPerformed(ActionEvent arg0) {
+										
+										String phModOperation = (String)phModCombo.getSelectedItem();
+										
+										switch(phModOperation) {
+									
+										case "Update Price" :
+											
+											JFrame phModPriceFr = new JFrame("Update Price");
+											phModPriceFr.setVisible(true);
+											phModPriceFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											phModPriceFr.setBounds(200,100,700,500);
+											Container c16 = phModPriceFr.getContentPane();
+											c16.setLayout(null);
+											
+											JLabel phModPriceNameLbl = new JLabel("Name");
+											phModPriceNameLbl.setBounds(50,60,60,30);
+											JTextField phModPriceNameTxt = new JTextField();
+											phModPriceNameTxt.setBounds(140,60,150,30);
+											
+											JLabel phModPricePriceLbl = new JLabel("Price");
+											phModPricePriceLbl.setBounds(50,100,90,30);
+											JTextField phModPricePriceTxt = new JTextField();
+											phModPricePriceTxt.setBounds(140,100,150,30);
+											
+											JButton phModPriceBtn = new JButton("Submit");
+											phModPriceBtn.setBounds(165,140,90,30);
+											
+											phModPriceBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateName = phModPriceNameTxt.getText();
+													int updatePrice = Integer.parseInt(phModPricePriceTxt.getText());
+											
+															String query = "Update medicin set price = ? where name = ?";
+															try {
+																Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+																PreparedStatement ps = con.prepareStatement(query);
+																ps.setInt(1,updatePrice);
+																ps.setString(2,updateName);
+															    ps.executeUpdate();
+															    System.out.println("Medicin: Update Price Success");
+																
+															} catch (SQLException e1) {
+																System.out.println("Medicin: Update Price error");
+															}
+													
+												}
+												
+											});
+											
+											c16.add(phModPriceNameLbl);
+											c16.add(phModPriceNameTxt);
+											c16.add(phModPricePriceLbl);
+											c16.add(phModPricePriceTxt);
+											c16.add(phModPriceBtn);
+											
+											break;
+											
+										case "Update Quantity" :
+											
+											JFrame phUpQuantityFr = new JFrame("Update Quantity");
+											phUpQuantityFr.setVisible(true);
+											phUpQuantityFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+											phUpQuantityFr.setBounds(200,100,700,500);
+											Container c17 = phUpQuantityFr.getContentPane();
+											c17.setLayout(null);
+											
+											JLabel phUpNameLbl = new JLabel("Name");
+											phUpNameLbl.setBounds(50,60,60,30);
+											JTextField phUpNameTxt = new JTextField();
+											phUpNameTxt.setBounds(140,60,150,30);
+											
+											JLabel upQuantityLbl = new JLabel("Quantity");
+											upQuantityLbl.setBounds(50,100,90,30);
+											JTextField upQuantityTxt = new JTextField();
+											upQuantityTxt.setBounds(140,100,150,30);
+											
+											JButton phUpBtn = new JButton("Submit");
+											phUpBtn.setBounds(165,140,90,30);
+											
+											phUpBtn.addActionListener(new ActionListener() {
+
+												public void actionPerformed(ActionEvent e) {
+													
+													String updateName = phUpNameTxt.getText();
+													int updateQuantity = Integer.parseInt(upQuantityTxt.getText());
+													
+													String query = "Update medicin set quantity = ? where name = ?";
+													try {
+														Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+														PreparedStatement ps = con.prepareStatement(query);
+														ps.setInt(1,updateQuantity);
+														ps.setString(2,updateName);
+													    ps.executeUpdate();
+													    System.out.println("Medicin: Update Quantity Success");
+														
+													} catch (SQLException e1) {
+														System.out.println("Medicin: Update Quantity error");
+													}
+													
+												}
+												
+											});
+											
+											c17.add(phUpNameLbl);
+											c17.add(phUpNameTxt);
+											c17.add(upQuantityLbl);
+											c17.add(upQuantityTxt);
+											c17.add(phUpBtn);
+                                       }
+										
+									}
+									
+								});
+								
+								c14.add(phModLabel);
+								c14.add(phModCombo);
+								c14.add(phModButton);
+								
+								break;
+								
+							case "View Medicin" :
+								pharmaFr.dispose();
+								
+								JFrame viewMedicinFr = new JFrame("View Medicin");
+								viewMedicinFr.setVisible(true);
+								viewMedicinFr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								viewMedicinFr.setBounds(200,100,700,500);
+								Container c10 = viewMedicinFr.getContentPane();
+								c10.setLayout(null);
+								
+								try {
+									Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","123");
+								    String query = "Select * from medicin";
+								    Statement viewStmt = con.createStatement();
+								    ResultSet rs = viewStmt.executeQuery(query);
+								    
+								    
+								    int i=60;
+								    while(rs.next()) {
+								    String name=rs.getString(1);
+								    int price=rs.getInt(2);
+								    int quantity=rs.getInt(3);
+								    
+								    String printLine = name+"   "+price+"   "+quantity;
+								    JLabel printLbl = new JLabel(printLine);
+								    printLbl.setBounds(50,i,300,30);
+								    c10.add(printLbl);
+								    i=i+40;
+								
+							        }
+								}
+								catch(SQLException e1) {
+									System.out.println("Medicin view failed");
+								}
+								
+								break;	
+							
+							}
+							
+						}
+						
+					});
+					
+					pharmaFr.add(pharmaOpLbl);
+					pharmaFr.add(pharmaOprsCombo);
+					pharmaFr.add(pharmaBtn);
+					
+					break;	
+				
+				}
+			}
+		});
+		
+		c1.add(label1);
+		c1.add(combo1);
+		c1.add(button1);
+		c1.revalidate();
+	}
+
+}
